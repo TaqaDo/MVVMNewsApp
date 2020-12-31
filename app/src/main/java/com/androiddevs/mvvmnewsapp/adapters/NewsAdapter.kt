@@ -5,4 +5,6 @@ import androidx.recyclerview.widget.RecyclerView
 
 class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+
+    //sdfsdfsf
 }
