@@ -1,5 +1,9 @@
 package com.androiddevs.mvvmnewsapp.ui
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,6 +11,7 @@ import com.androiddevs.mvvmnewsapp.data.models.news.Article
 import com.androiddevs.mvvmnewsapp.data.models.news.NewsResponse
 import com.androiddevs.mvvmnewsapp.repository.NewsRepository
 import com.androiddevs.mvvmnewsapp.utills.Resource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -26,14 +31,26 @@ class MainViewModel(
 
     fun getBreakingNews(countryCode: String) = viewModelScope.launch {
         breakingNews.postValue(Resource.Loading())
-        val response = newsRepository.getBreakingNews(countryCode, breakingNewsPage)
-        breakingNews.postValue(handleBreakingNewsResponse(response))
+        try {
+            val response = newsRepository.getBreakingNews(countryCode, breakingNewsPage)
+            breakingNews.postValue(handleBreakingNewsResponse(response))
+        } catch (ex: Exception) {
+            breakingNews.postValue(Resource.Error(ex.message.toString()))
+        }
+
+
     }
 
-    fun searchNews(searchQuery: String) = viewModelScope.launch {
+
+    fun getSearchNews(searchQuery: String) = viewModelScope.launch {
         searchNews.postValue(Resource.Loading())
-        val response = newsRepository.searchNews(searchQuery, searchNewsPage)
-        searchNews.postValue(handleSearchNewsResponse(response))
+        try {
+            val response = newsRepository.searchNews(searchQuery, searchNewsPage)
+            searchNews.postValue(handleSearchNewsResponse(response))
+        } catch (ex: Exception) {
+            searchNews.postValue(Resource.Error(ex.message.toString()))
+        }
+
     }
 
     private fun handleBreakingNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
@@ -63,5 +80,7 @@ class MainViewModel(
     fun deleteArticle(article: Article) = viewModelScope.launch {
         newsRepository.deleteArticle(article)
     }
+
+
 
 }

@@ -1,6 +1,5 @@
 package com.androiddevs.mvvmnewsapp.ui.fragments.search
 
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
@@ -14,7 +13,6 @@ import com.androiddevs.mvvmnewsapp.R
 import com.androiddevs.mvvmnewsapp.adapters.NewsAdapter
 import com.androiddevs.mvvmnewsapp.ui.MainActivity
 import com.androiddevs.mvvmnewsapp.ui.MainViewModel
-import com.androiddevs.mvvmnewsapp.utills.Constants
 import com.androiddevs.mvvmnewsapp.utills.Constants.Companion.SEARCH_NEWS_TIME_DELAY
 import com.androiddevs.mvvmnewsapp.utills.Resource
 import kotlinx.android.synthetic.main.fragment_search_news.*
@@ -78,7 +76,7 @@ class SearchNewsFragment: Fragment(R.layout.fragment_search_news) {
                 delay(SEARCH_NEWS_TIME_DELAY)
                 editable?.let {
                     if (editable.toString().isNotEmpty()) {
-                        viewModel.searchNews(editable.toString())
+                        viewModel.getSearchNews(editable.toString())
                     }
                 }
             }
